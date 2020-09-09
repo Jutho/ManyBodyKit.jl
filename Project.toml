@@ -1,0 +1,10 @@
+name = "ManyBodyKit"
+uuid = "ec8325a6-87a2-4c0c-a6cb-2de064aeb65c"
+authors = ["Jutho Haegeman <jutho.haegeman@ugent.be>"]
+version = "0.1.0"
+
+[deps]
+HalfIntegers = "f0d1745a-41c9-11e9-1dd9-e5d34d218721"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+TensorKit = "07d1fe3e-3e46-537d-9eac-e9e13d0d4cec"
