@@ -41,7 +41,7 @@ Base.IteratorSize(::Type{Lattice{S,N,M,D,U,B,G}}) where {S,N,M,D,U,B,G} = Iterat
 
 # specific lattice constructors
 # one-dimensional and quasi-one-dimensional
-function chain(site, a::Number = 1; geometry::Geometry{1} = line(), name = "chain")
+function chain(site, a::Number = 1; geometry::Geometry{1} = Line(), name = "chain")
     unitcell = UnitCell((site,), (SVector(zero(a)),))
     translationvectors = SMatrix{1,1}(a)
     bulkedges=[(1,1,CartesianIndex(1))]
@@ -49,10 +49,10 @@ function chain(site, a::Number = 1; geometry::Geometry{1} = line(), name = "chai
 end
 
 ladder(site, ax::Number = 1, ay::Number = ax;
-        geometry::Geometry{1} = line(), name = "ladder") =
+        geometry::Geometry{1} = Line(), name = "ladder") =
     ladder((site,site), ax, ay; geometry = geometry, name = name)
 function ladder(sites::NTuple{2}, ax::Number = 1, ay::Number = ax;
-                geometry::Geometry{1} = line(), name = "ladder")
+                geometry::Geometry{1} = Line(), name = "ladder")
     unitcell = UnitCell(sites, (SVector(zero(ax), zero(ay)), SVector(zero(ax), ay)))
     translationvectors = SMatrix{2,1}(ax, zero(ay))
     bulkedges=[(1,2,CartesianIndex(0)), (1,1,CartesianIndex(1)), (2,2,CartesianIndex(1))]
@@ -60,7 +60,7 @@ function ladder(sites::NTuple{2}, ax::Number = 1, ay::Number = ax;
 end
 
 # two dimensional
-function square(site, a::Number = 1; geometry::Geometry{2} = plane(), name = "square")
+function square(site, a::Number = 1; geometry::Geometry{2} = Plane(), name = "square")
     unitcell = UnitCell((site,), (SVector(zero(a), zero(a)),))
     translationvectors = SMatrix{2,2}(a, zero(a), zero(a), a)
     bulkedges=[(1,1,CartesianIndex(1,0)), (1,1,CartesianIndex(0,1))]
@@ -68,7 +68,7 @@ function square(site, a::Number = 1; geometry::Geometry{2} = plane(), name = "sq
 end
 
 function rectangular(site, ax::Number, ay::Number;
-        geometry::Geometry{2} = plane(), name = "rectangular")
+        geometry::Geometry{2} = Plane(), name = "rectangular")
     unitcell = UnitCell((site,), (SVector(zero(a), zero(a)),))
     translationvectors = SMatrix{2,2}(ax, zero(ay), zero(ax), ay)
     bulkedges=[(1,1,CartesianIndex(1,0)), (1,1,CartesianIndex(0,1))]
@@ -76,14 +76,14 @@ function rectangular(site, ax::Number, ay::Number;
 end
 
 function oblique(site, a::Number, b::Number, θ::Number;
-        geometry::Geometry{2} = plane(), name = "oblique")
+        geometry::Geometry{2} = Plane(), name = "oblique")
     unitcell = UnitCell((site,), (SVector(zero(a), zero(a)),))
     translationvectors = SMatrix{2,2}(a, zero(b), b*cos(θ), b*sin(θ))
     bulkedges=[(1,1,CartesianIndex(1,0)), (1,1,CartesianIndex(0,1))]
     return Lattice(unitcell, translationvectors, bulkedges, geometry, name)
 end
 
-function triangular(site, a::Number = 1; geometry::Geometry{2} = plane(), name = "triangular")
+function triangular(site, a::Number = 1; geometry::Geometry{2} = Plane(), name = "triangular")
     unitcell = UnitCell((site,), (SVector(zero(a), zero(a)),))
     sqrt3 = sqrt(oftype(a, 3))
     translationvectors = SMatrix{2,2}(a, zero(a), a/2, a*sqrt3/2)
@@ -92,10 +92,10 @@ function triangular(site, a::Number = 1; geometry::Geometry{2} = plane(), name =
     return Lattice(unitcell, translationvectors, bulkedges, geometry, name)
 end
 
-honeycomb(site, a::Number = 1; geometry::Geometry{2} = plane(), name = "honeycomb") =
+honeycomb(site, a::Number = 1; geometry::Geometry{2} = Plane(), name = "honeycomb") =
     honeycomb((site,site), a; geometry = geometry, name = name)
 function honeycomb(sites::NTuple{2}, a::Number = 1;
-                    geometry::Geometry{2} = plane(), name = "honeycomb")
+                    geometry::Geometry{2} = Plane(), name = "honeycomb")
     unitcell = UnitCell(sites, (SVector(zero(a), zero(a)), SVector(a, zero(a))))
     translationvectors = SMatrix{2,2}(3a/2, sqrt(3)*a/2, 3a/2, -sqrt(3)a/2)
     bulkedges=[(1,2,CartesianIndex(0,0)),
@@ -104,10 +104,10 @@ function honeycomb(sites::NTuple{2}, a::Number = 1;
     return Lattice(unitcell, translationvectors, bulkedges, geometry, name)
 end
 
-kagome(site, a::Number = 1; geometry::Geometry{2} = plane(), name = "kagome") =
+kagome(site, a::Number = 1; geometry::Geometry{2} = Plane(), name = "kagome") =
     kagome((site,site,site), a; geometry = geometry, name = name)
 function kagome(sites::NTuple{3}, a::Number = 1;
-        geometry::Geometry{2} = plane(), name = "kagome")
+        geometry::Geometry{2} = Plane(), name = "kagome")
     sqrt3 = sqrt(oftype(a, 3))
     offset1 = SVector(zero(sqrt3), zero(sqrt3))
     offset2 = SVector(a, zero(sqrt3))
